@@ -1,0 +1,150 @@
+import java.util.Scanner;
+public class Account {
+String customer_name;
+int account_no;
+String type_acc;
+double balance=0;
+Scanner sc;
+
+Account(String customer_name,int account_no,String type_acc){
+this.customer_name=customer_name;
+this.account_no=account_no;
+this.type_acc=type_acc;
+sc=new Scanner(System.in);
+}
+
+void diposite() {
+System.out.println("Enter the deposit amount:");
+int dipo=sc.nextInt();
+balance+=dipo;
+}
+
+void withdrawal() {
+System.out.println("Enter the withdrawl amount:");
+int with=sc.nextInt();
+if(with>balance) {
+System.out.println("Insufficient Balance");
+}
+else{
+balance-=with;
+}
+}
+
+void display() {
+System.out.println("Customer name:"+customer_name);
+System.out.println("Account number:"+account_no);
+System.out.println("Type of Account:"+type_acc);
+System.out.println("Balance:"+balance);
+}
+void applyinterest() {}
+
+}
+
+package java_lab;
+
+public class Cur_acct extends Account {
+
+Cur_acct(String customer_name,int account_no,String type_acc)
+{
+super(customer_name,account_no,type_acc);
+}
+
+void withdrawal() {
+System.out.println("Enter the withdrawl amount:");
+int with=sc.nextInt();
+if (balance<=2000) {
+double pen=balance/(0.06);
+System.out.println("Insuffiecient balance penalty to be paid:"+pen);
+balance+=pen;
+}
+else{
+balance-=with;
+}
+}
+}
+
+package java_lab;
+
+public class Sav_acct extends Account{
+Sav_acct(String customer_name,int account_no,String type_acc){
+super(customer_name,account_no,type_acc);
+}
+
+void applyinterest() {
+System.out.println("Enter the interest rate:");
+int rate=sc.nextInt();
+double interest=balance*(rate/100);
+balance+=interest;
+System.out.println("Balance after interest:"+balance);
+}
+
+}
+
+package java_lab;
+import java.util.Scanner;
+public class Bank {
+public static void main(String[] args) {
+Scanner sc=new Scanner(System.in);
+System.out.println("Enter customer name:");
+String cus_name=sc.nextLine();
+System.out.println("Enter account number:");
+int acc_no=sc.nextInt();
+
+Account ca=new Cur_acct(cus_name,acc_no,"Current Account");
+Account sa=new Sav_acct(cus_name,acc_no,"Saving Account");
+
+int choice;
+while(true){
+System.out.println("----MENU----");
+System.out.println("1.Deposite\n2.Withdrawl\n3.Compute intereset for Saving account\n4.Display account details\n5.Exit");
+choice=sc.nextInt();
+
+switch(choice) {
+case 1:
+System.out.println("Enter the type of account:\n1.Saving Account \n2.Current Account");
+int acc=sc.nextInt();
+if(acc==1) {
+sa.diposite();
+}
+else {
+ca.diposite();
+}
+break;
+case 2:
+System.out.println("Enter the type of account:\n1.Saving Account \n2.Current Account");
+int acc1=sc.nextInt();
+if(acc1==1) {
+sa.withdrawal();
+}
+else {
+ca.withdrawal();
+}
+break;
+case 3:
+sa.applyinterest();
+break;
+case 4:
+System.out.println("Enter the type of account:\n1.Saving Account \n2.Current Account");
+int acc2=sc.nextInt();
+if(acc2==1) {
+sa.display();
+}
+else {
+ca.display();
+}
+break;
+case 5:
+break;
+default:
+System.out.println("Invalid Choice");
+break;
+}
+
+if(choice==5) {
+break;
+}
+}
+
+}
+
+}
